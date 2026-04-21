@@ -26,7 +26,7 @@ router.post('/register', [
       'INSERT INTO users (full_name, email, password_hash, phone) VALUES (?, ?, ?, ?)',
       [full_name, email, hash, phone || null]
     );
-    const token = jwt.sign({ id: result.insertId, email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
     res.status(201).json({ success: true, message: 'Account created!', token, user: { id: result.insertId, full_name, email } });
   } catch (err) {
     console.error(err);
